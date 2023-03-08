@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>获取ASCII码</title>
+  </head>
+  <body>
+    <label for="input">请输入车辆VIN（17位数字或字母）：</label>
+    <input type="text" id="input" name="input" maxlength="17">
+    <button onclick="getASCII()">获取MACID</button>
+    <p id="result"></p>
+    <script>
+      function getASCII() {
+        const input = document.getElementById("input").value;
+        try {
+          const result = calculateASCII(input);
+          document.getElementById("result").textContent = result;
+        } catch (error) {
+          alert(error.message);
+        }
+      }
+      function calculateASCII(input) {
+        if (input.length !== 17) {
+          throw new Error("输入必须为17位数字或字母！");
+        }
+	  // 将输入字符串转换为大写字母
+  	  input = input.toUpperCase();
+	  // 获取B和Y的ASCII码的16进制表示
+  	  const B = "B".charCodeAt(0).toString(16).toUpperCase();
+  	  const Y = "Y".charCodeAt(0).toString(16).toUpperCase();
+        const result = [];
+	  result.push(B);
+	  result.push(Y);
+        result.push(input.charCodeAt(8).toString(16).toUpperCase());
+        result.push(input.charCodeAt(9).toString(16).toUpperCase());
+        result.push(input.charCodeAt(10).toString(16).toUpperCase());
+        result.push(input.charCodeAt(14).toString(16).toUpperCase());
+        result.push(input.charCodeAt(15).toString(16).toUpperCase());
+        result.push(input.charCodeAt(16).toString(16).toUpperCase());
+        return result.join(":");
+      }
+    </script>
+  </body>
+</html>
